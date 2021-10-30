@@ -58,16 +58,34 @@ async function run() {
       res.json(bookingResult);
     
     })
+// Get all users or booking
     app.get('/booking', async(req, res) => {
       const cursor = bookingCollection.find({});
       const users = await cursor.toArray();
       res.send(users);
     })
+    // Delete Booking or User
     app.delete('/booking/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const result = await bookingCollection.deleteOne(query);
       res.json(result);
+    })
+//get single user booking details
+    // app.get ('/booking/:name', async (req, res) => {
+    //   const name= req.params.name;
+    //   console.log ('getting single id');
+    //   const query = {name: name};
+    //   const myOrder = await bookingCollection.find(query);
+    
+    //   res.json(myOrder);
+      
+    // })
+    app.get ('/booking/:email', async (req, res) =>{
+      const query = {email: req.params.email};
+      const cursor =  bookingCollection.find(query);
+      const myOrder =  await cursor.toArray();
+      res.json(myOrder);
     })
 
     } finally {
